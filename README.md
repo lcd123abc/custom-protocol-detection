@@ -1,14 +1,12 @@
-# Custom Protocol Detection in Browser
-Detect whether a custom protocol is available in browser (FF, Chrome, IE8, IE9, IE10, IE11, and Edge)
+# 浏览器中的自定义协议检测
+检测自定义协议在浏览器（FF，Chrome，IE8，IE9，IE10，IE11和Edge）中是否可用
 
-The implementation is different from one browser to another, sometimes depend on which OS you are. Most of them are hacks, meaning that the solution is not the prettiest.
+* Firefox: 在隐藏的iframe中打开处理程序，如果自定义协议不可用捕获异常。
+* Chrome: 使用窗口onBlur来检测浏览器是否失去焦点，当失去焦点时，可以认为自定义协议启动了外部应用程序。
+* Win 8 / Win 10中的IE和Edge：最干净的解决方案. Windows 8和Windows 10中的IE和Edge提供了API以检查自定义协议处理程序的存在。
+* 其他IE：各种不同的实现。值得注意的是，即使是相同的IE版本，其行为也可能不同（我怀疑是由于提交编号不同）。 这意味着对于这些IE，实施是最不可靠的。
 
-* Firefox: try to open the handler in a hidden iframe and catch exception if the custom protocol is not available.
-* Chrome: using window onBlur to detect whether the focus is stolen from the browser. When the focus is stolen, it assumes that the custom protocol launches external app and therefore it exists.
-* IEs and Edge in Win 8/Win 10: the cleanest solution. IEs and Edge in Windows 8 and Windows 10 does provide an API to check the existence of custom protocol handlers.
-* Other IEs: various different implementation. Worth to notice that even the same IE version might have a different behavior (I suspect due to different commit number). It means that for these IEs, the implementation is the least reliable.
+# 已知的问题
 
-# Known Issues
-
-* In some protocol such as "mailto:", IE seems to trigger the fail callback while continuing on opening the protocol just fine (tested in IE11/Win 10). This issue doesn't occur with a custom protocol.
-* Edge, in contrast, never fail anything as it will just offer users to find an app in Windows Store to open an unknown protocol.
+* 在诸如“ mailto：”之类的某些协议中，IE似乎在继续打开协议时就触发了失败回调（在IE11 / Win 10中进行了测试）。 自定义协议不会发生此问题。
+* 相比之下，Edge绝不会失败，因为它只会为用户提供Windows Store中打开一个未知协议的应用程序。
