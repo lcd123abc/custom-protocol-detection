@@ -71,7 +71,7 @@ function openUriWithTimeoutHack(uri, failCb, successCb) {
         successCb();
     }
 
-    window.location = uri;
+    window.location.href = uri;
 }
 
 function openUriUsingFirefox(uri, failCb, successCb) {
